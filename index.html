@@ -262,6 +262,7 @@
         </div>
         <p class="description" id="city-description"></p>
         <p class="description" id="hoehenmeter" style="font-weight: bold; margin-bottom: 20px;">1000 Höhenmeter für den guten Zweck!</p>
+        <div id="image_placeholder" style="height: 100px;"></div>
         <img id="city-image" src="" alt="Landscape" style="width: 100%; height: auto; margin: 0px;">
         <div id="options">
         <p class="description" id="purchase-description" style="margin-top: 20px;">
@@ -358,12 +359,14 @@
                 "Immer wieder tun sich spektakuläre Ausblicke über Baumkronen und Seen auf, " +
                 "bis Du schließlich auf einem kahlen Gipfel stehst und die Aussicht über den Schwarzwald genießt.",
             image: "img/schwarzwald",
+            imageHeight: 280 * 420 / 560,
             links: ["https://buy.stripe.com/6oEdRL0fU5GF7f2dQX", "https://buy.stripe.com/14kdRL9Qu9WVczmaEO", "https://buy.stripe.com/6oEbJDaUyd979na7sD"]
             },
             {
             name: "Bodensee",
             coords: [47.5480, 9.6900],
             type: "road",
+            imageHeight: 280 * 372 / 560,
             description: "Du startest mit dem Rennrad am Ufer des Bodensees und legst zunächst etwa 50 km im Flachland zurück - " +
                 "genug Zeit, um Deine Beine aufzuwärmen. " +
                 "Nun beginnt ein mehr als 10 km langer Anstieg voller Haarnadelkurven bis Du schließlich auf der Passhöhe ankommst.",
@@ -378,6 +381,7 @@
                 "Nach der Hälfte des Anstiegs eröffnet sich ein schöner Blick ins Tal, der " +
                 "von einem tollen Zugspitzpanorama auf dem Gipfel getoppt wird. ",
             image: "img/zugspitzregion",
+            imageHeight: 280 * 392 / 560,
             links: ["https://buy.stripe.com/dR6eVP0fU2ut8j6cN0", "https://buy.stripe.com/cN25lf4wa6KJ42QeV9", "https://buy.stripe.com/8wM3d74wa1qpare3cs"]
             },
             {
@@ -388,6 +392,7 @@
                 "bis zum Fuße einer der ersten beeindruckenden Felswände der Nordalpen. " +
                 "Ab hier ist Trittsicherheit gefragt. Belohnt wirst Du nach 12 km Wanderung mit einer weiten Sicht über das Chiemgau.",
             image: "img/chiemsee",
+            imageHeight: 280 * 420 / 560,
             links: ["https://buy.stripe.com/7sI14Zd2G0mlaredR7", "https://buy.stripe.com/cN26pjgeS8SRfLyaEW", "https://buy.stripe.com/3cs4hbfaO7ON6aY00j"]
             },
             {
@@ -399,6 +404,7 @@
                 "Mit etwas Auf und Ab sammelst Du über ca. 50 km insgesamt mehr als 1500 Höhenmeter. " +
                 "Da der letzte Kilometer unbefestigt ist, empfehlen wir ein Gravelbike oder ein Rennrad mit Schloss und Wechselschuhe im Gepäck.",
             image: "img/bayrischer_wald",
+            imageHeight: 280 * 163 / 560,
             links: ["https://buy.stripe.com/eVabJD6Ei7ONdDq6ou", "https://buy.stripe.com/bIYbJDaUyc5356U00c", "https://buy.stripe.com/28o7tn2o2c5342Q00d"]
             }
         ];
@@ -412,6 +418,7 @@
                 "Die Route enthält einen Klettersteig der Kategorie A/B (K1/K2) und erfordert entsprechende Bergerfahrung und Ausrüstung. " +
                 "Der Rückweg erfolgt komfortabel per Seilbahn.",
             image: "img/zugspitzregion_2000",
+            imageHeight: 280 * 373 / 560,
             links: ["https://buy.stripe.com/00gcNHd2Gglj7f25kE", "https://buy.stripe.com/7sI14Z8Mq6KJ6aYfZj", "https://buy.stripe.com/5kA2931jY3yx7f27sO"]
             },
             {
@@ -421,6 +428,7 @@
             description: "Von der Uferpromenade über kleine Asphaltstraßen und schließlich einen serpentinenreichen " +
                 "Gravel-Pass hinauf in luftige Höhen mit Blick entlang des gesamten Gardasee.",
             image: "img/gardasee",
+            imageHeight: 280 * 420 / 560,
             links: ["https://buy.stripe.com/cN2bJD1jY0mlgPC8wT", "https://buy.stripe.com/4gw8xrbYCd97eHu6oM", "https://buy.stripe.com/7sIdRL2o26KJ1UI14t"]
             },
             {
@@ -431,6 +439,7 @@
                 "Weiter geht es über einen Klettersteig der Kategorie B (K2) hinauf zu einem Gipfel mit sowohl tiefem als auch weitem Blick. " +
                 "Entsprechende Ausrüstung und Erfahrung sind erforderlich.",
             image: "img/berner_oberland",
+            imageHeight: 280 * 359 / 560,
             links: ["https://buy.stripe.com/5kA5lf7Im4CB7f2bJ8", "https://buy.stripe.com/fZe7tn5Ae5GF7f24gH", "https://buy.stripe.com/eVa8xre6K3yx42QfZq"]
             }
         ];
@@ -512,8 +521,10 @@
             if (activeCity) {
                 document.getElementById('city-name').textContent = activeCity.name;
                 document.getElementById('city-description').textContent = activeCity.description;
-                document.getElementById('city-image').src = ""; //activeCity.image + "_placeholder.png";
+                document.getElementById('city-image').src = "";
+                document.getElementById('image_placeholder').style.height = activeCity.imageHeight + "px";
                 document.getElementById('city-image').src = activeCity.image + ".png";
+                document.getElementById('image_placeholder').style.height = "0px";
                 for (var i = 0; i < activeCity.links.length; i++) {
                     document.getElementById('link' + (i + 1)).href = activeCity.links[i];
                 }
