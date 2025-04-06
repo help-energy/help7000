@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HELP Energy</title>
+    <title>HELP | Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -31,7 +31,7 @@
         }
         .legend {
             display: flex;
-            justify-content: space-around;
+            gap: 20px;
             align-items: center;
             margin-top: 5px;
             width: 250px;
@@ -59,7 +59,7 @@
         }
         .map-credits {
             position: absolute;
-            bottom: 100px;
+            bottom: 120px;
             right: 0;
             background: rgba(128, 128, 128, 0.5);
             padding: 2px 10px;
@@ -91,7 +91,7 @@
             align-items: center;
             bottom: 0px;
             height: 80px;
-            gap: 20px;
+            gap: 15px;
         }
         .legal {
             position: absolute;
@@ -177,8 +177,7 @@
             width: 170px;
         }
         .box-a img {
-            width: 160px;
-            height: 50px;
+            width: 150px;
             object-fit: cover;
         }
         .price-container {
@@ -214,8 +213,8 @@
             margin-bottom: 20px;
         }
         .button-b {
-            width: 80px;
-            height: 60px;
+            width: 90px;
+            height: 40px;
             background-color: rgb(0, 153, 255);
             color: white;
             border: none;
@@ -224,7 +223,7 @@
             font-weight: bold;
             font-style: italic;
             border-radius: 10px;
-            margin-top: 0px;
+            margin-top: -0px;
             transition: background-color 0.3s ease;
         }
         .button-b:active {
@@ -237,9 +236,87 @@
 </head>
 <body>
     <div id="all" style="height: 100%">
+    <div class="top" id="top">
+        <div class="legend">
+            <div style="display: flex; align-items: center;">
+                <div class='circle' style="background-color: rgba(0, 128, 0, 0.5); border: 2px solid green;"></div>
+                <p class="legend-font">Wandern</p>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div class='circle' style="background-color: rgba(42, 42, 42, 0.5); border: 2px solid rgb(42, 42, 42);"></div>
+                <p class="legend-font">Rennrad</p>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div class='circle' style="background-color:  rgba(82, 137, 144, 0.5); border: 2px solid rgb(82, 137, 144);"></div>
+                <p class="legend-font">Kombi</p>
+            </div>
+        </div>
+    </div>
+    <div id="map"></div>
+    <div class="map-overlay"></div>
+    <div class="map-credits">Leaflet | © OpenStreetMap, CARTO</div>
+    <div class="sidebar" id="sidebar" style="overflow-y: auto;">
+        <div class="sidebar-title">
+            <h2 class="location-name" id="city-name"></h2>
+            <p class="back" id="close-sidebar" onclick="unselectCity()">zurück</p>
+        </div>
+        <p class="description" id="city-description"></p>
+        <p class="description" id="hoehenmeter" style="font-weight: bold; margin-bottom: 20px;">1000 Höhenmeter für den guten Zweck!</p>
+        <img id="city-image" src="" alt="Landscape" style="width: 100%; height: auto; margin: 0px;">
+        <div id="options">
+        <p class="description" id="purchase-description" style="margin-top: 20px;">
+            Du kannst Dich für Deine Tour und davor bzw. danach 
+            mit 1, 2 oder 4 Boxen HELP ausstatten und so automatisch Spenden generieren.
+            Nährwerte, Zutaten und Allergene findest Du <a href="https://www.help-energy.com/de" target="_blank">hier</a>.
+        </p>
+        <p class="description">
+            Wir senden Dir kostenfrei eine detaillierte Routenbeschreibung im PDF-Format.
+        </p>
+        <p class="description" id="badge" style="margin-bottom: 30px;">
+            Zudem senden wir Dir den offiziellen HELP1000 Badge!
+        </p>
+        <div class="container" id="container1">
+            <div class="box-a">
+                <img id="option12" src="img/1000_12.png" alt="12 HELP bars, manual, and badge">
+                <div class="price-container"><p class="price-main-font">29.88€</p><p class="price-donation-font">inkl. 6€ Spende*</p></div>
+            </div>
+            <a id="link1" href="" target="_blank"><button class="button-b" id="button1">Bestellen</button></a>
+        </div>
+        <div class="separator"></div>
+        <div class="container" id="container2">
+            <div class="box-a">
+                <img id="option24" src="img/1000_24.png" alt="24 HELP bars, manual, and badge">
+                <div class="price-container"><p class="price-main-font">54.96€</p><p class="price-donation-font">inkl. 12€ Spende*</p></div>
+            </div>
+            <a id="link2" href="" target="_blank"><button class="button-b" id="button2">Bestellen</button></a>
+        </div>
+        <div class="separator"></div>
+        <div class="container" id="container3">
+            <div class="box-a">
+                <img id="option48" src="img/1000_48.png" alt="48 HELP bars, manual, and badge">
+                <div class="price-container"><p class="price-main-font">99.84€</p><p class="price-donation-font">inkl. 24€ Spende*</p></div>
+            </div>
+            <a id="link3" href="" target="_blank"><button class="button-b" id="button3">Bestellen</button></a>
+        </div>
+        <div class="separator"></div>
+        <div class="price-details">*ohne MwSt. nach § 19 UStG · kostenloser Versand</div>
+        </div>
+        <div id="anfragen" style="display: none;">
+            <p class="description" style="margin-top: 20px;">
+                Aufgrund der signifikaten physischen und logistischen Herausforderungen
+                teilen wir unsere Erfahrung persönlich mit Dir.
+            </p>
+            <a href="https://instagram.com/help.athletes" target="_blank"><button class="button-b" style="width: calc(100% - 20px); margin: 10px;">Schreib uns eine Nachricht</button></a>
+        </div>
+        <div style="height: 30px;"></div>
+    </div>
+    <div class="triangle" id="triangle"></div>
     <div class="bottom" id="bottom">
         <div class="help1000" id="help1000">
-            <img src="/img/help.png" alt="Image 1" style="width: 100px; margin-right: 10px;">
+            <img src="img/help.png" alt="HELP" style="width: 100px; margin-right: 10px;">
+            <img src="img/1000.png" id="1000" alt="HELP1000" style="width: 50px; cursor: pointer;" onclick="setState(1000)">
+            <img src="img/2000.png" id="2000" alt="HELP2000" style="width: 50px; cursor: pointer; opacity: 0.3" onclick="setState(2000)">
+            <img src="img/3000.png" id="3000" alt="HELP3000" style="width: 60px; cursor: pointer; opacity: 0.3" onclick="setState(3000)">
         </div>
     </div>
     <div class="legal" id="legal">
@@ -248,5 +325,305 @@
     </div>
     </div>
     
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+
+        if (window.innerWidth <= 768) {
+            var zoom = 6;
+        } else {
+            var zoom = 8;
+        }
+
+        var map = L.map('map').setView([48.0, 10.5515], zoom);
+        
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {}).addTo(map);
+
+
+        map.scrollWheelZoom.disable();
+        //map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.boxZoom.disable();
+        //map.keyboard.disable();
+        
+        var sidebar = document.getElementById('sidebar');
+        var triangle = document.getElementById('triangle');
+        var activeCity = null;
+
+        var cities_1000 = [
+            {
+            name: "Schwarzwald",
+            coords: [47.8736, 8.0079],
+            type: "hike",
+            description: "Du wanderst etwa 12 Kilometer auf schmalen Pfaden durch mystische Nadelwälder. " +
+                "Immer wieder tun sich spektakuläre Ausblicke über Baumkronen und Seen auf, " +
+                "bis Du schließlich auf einem kahlen Gipfel stehst und die Aussicht über den Schwarzwald genießt.",
+            image: "img/schwarzwald.png",
+            links: ["https://buy.stripe.com/6oEdRL0fU5GF7f2dQX", "https://buy.stripe.com/14kdRL9Qu9WVczmaEO", "https://buy.stripe.com/6oEbJDaUyd979na7sD"]
+            },
+            {
+            name: "Bodensee",
+            coords: [47.5480, 9.6900],
+            type: "road",
+            description: "Du startest mit dem Rennrad am Ufer des Bodensees und legst zunächst etwa 50 km im Flachland zurück - " +
+                "genug Zeit, um Deine Beine aufzuwärmen. " +
+                "Nun beginnt ein mehr als 10 km langer Anstieg voller Haarnadelkurven bis Du schließlich auf der Passhöhe ankommst.",
+            image: "img/bodensee.png",
+            links: ["https://buy.stripe.com/28ocNH1jY8SR42Q005", "https://buy.stripe.com/bIY00V0fU5GF0QE009", "https://buy.stripe.com/4gwbJD7Im8SRdDq9AI"]
+            },
+            {
+            name: "Zugspitzregion",
+            coords: [47.5161, 11.1442],
+            type: "hike",
+            description: "Gut erreichbar von München startest Du in einen 6 km kurzen und dafür recht steilen Pfad. " +
+                "Nach der Hälfte des Anstiegs eröffnet sich ein schöner Blick ins Tal, der " +
+                "von einem tollen Zugspitzpanorama auf dem Gipfel getoppt wird. ",
+            image: "img/zugspitzregion.png",
+            links: ["https://buy.stripe.com/dR6eVP0fU2ut8j6cN0", "https://buy.stripe.com/cN25lf4wa6KJ42QeV9", "https://buy.stripe.com/8wM3d74wa1qpare3cs"]
+            },
+            {
+            name: "Chiemsee",
+            coords: [47.7597, 12.3631],
+            type: "hike",
+            description: "Vom Ufer des Chiemsee geht es erst durch eine Birkenalle und einige Felder " +
+                "bis zum Fuße einer der ersten beeindruckenden Felswände der Nordalpen. " +
+                "Ab hier ist Trittsicherheit gefragt. Belohnt wirst Du nach 12 km Wanderung mit einer weiten Sicht über das Chiemgau.",
+            image: "img/chiemsee.png",
+            links: ["https://buy.stripe.com/7sI14Zd2G0mlaredR7", "https://buy.stripe.com/cN26pjgeS8SRfLyaEW", "https://buy.stripe.com/3cs4hbfaO7ON6aY00j"]
+            },
+            {
+            name: "Bayrischer Wald",
+            coords: [48.9456, 13.4922],
+            type: "gravel",
+            description: "Von einem der größten Flüsse Deutschlands fährst Du immer tiefer in den " +
+                "nordisch anmutenden Bayrischen Wald. " +
+                "Mit etwas Auf und Ab sammelst Du über ca. 50 km insgesamt mehr als 1500 Höhenmeter. " +
+                "Da der letzte Kilometer unbefestigt ist, empfehlen wir ein Gravelbike oder ein Rennrad mit Schloss und Wechselschuhe im Gepäck.",
+            image: "img/bayrischer_wald.png",
+            links: ["https://buy.stripe.com/eVabJD6Ei7ONdDq6ou", "https://buy.stripe.com/bIYbJDaUyc5356U00c", "https://buy.stripe.com/28o7tn2o2c5342Q00d"]
+            }
+        ];
+
+        var cities_2000 = [
+            {
+            name: "Zugspitzregion",
+            coords: [47.4578, 10.9884],
+            type: "hike",
+            description: "Hier geht es nur bergauf. Schon bald nach dem Start kontrastiert türkis-blaues Wasser mit dunkelgrünen Nadelbäumen. " +
+                "Die Route enthält einen Klettersteig der Kategorie A/B (K1/K2) und erfordert entsprechende Bergerfahrung und Ausrüstung. " +
+                "Der Rückweg erfolgt komfortabel per Seilbahn.",
+            image: "img/zugspitzregion_2000.png",
+            links: ["https://buy.stripe.com/00gcNHd2Gglj7f25kE", "https://buy.stripe.com/7sI14Z8Mq6KJ6aYfZj", "https://buy.stripe.com/5kA2931jY3yx7f27sO"]
+            },
+            {
+            name: "Gardasee",
+            coords: [45.8852, 10.8394],
+            type: "gravel",
+            description: "Von der Uferpromenade über kleine Asphaltstraßen und schließlich einen serpentinenreichen " +
+                "Gravel-Pass hinauf in luftige Höhen mit Blick entlang des gesamten Gardasee.",
+            image: "img/gardasee.png",
+            links: ["https://buy.stripe.com/cN2bJD1jY0mlgPC8wT", "https://buy.stripe.com/4gw8xrbYCd97eHu6oM", "https://buy.stripe.com/7sIdRL2o26KJ1UI14t"]
+            },
+            {
+            name: "Berner Oberland",
+            coords: [46.6863, 7.8632],
+            type: "gravel",
+            description: "Diese Kombi-Tour führt Dich zunächst auf dem Rennrad zu einer der sagenumwobenen Felswände der Alpen. " +
+                "Weiter geht es über einen Klettersteig der Kategorie B (K2) hinauf zu einem Gipfel mit sowohl tiefem als auch weitem Blick. " +
+                "Entsprechende Ausrüstung und Erfahrung sind erforderlich.",
+            image: "img/berner_oberland.png",
+            links: ["https://buy.stripe.com/5kA5lf7Im4CB7f2bJ8", "https://buy.stripe.com/fZe7tn5Ae5GF7f24gH", "https://buy.stripe.com/eVa8xre6K3yx42QfZq"]
+            }
+        ];
+
+        var cities_3000 = [
+        {
+            name: "Aostatal",
+            coords: [45.7346, 7.3173],
+            type: "gravel",
+            description: "Von mediterran anmutenden Dörfern bis in den höchsten Gebirgszug der Alpen. " +
+                "Die Route enthält keine Gletscher, erfordert jedoch Steigeisen, Eispickel und ensprechende Erfahrung. " +
+                "Der Anstieg kann in ein oder zwei Tagen bewältigt werden. " + 
+                "Wenn an einem Tag bewältigt, erfordert diese Tour enorme Ausdauer und je nach Geschwindigkeit eine Übernachtung in einer Berghütte während des Abstiegs. ",
+            image: "img/aostatal.png",
+            links: ["https://instagram.com/help.athletes", "https://instagram.com/help.athletes", "https://instagram.com/help.athletes"]
+            }
+        ]
+
+        var thousands_to_cities = {
+            1000: cities_1000,
+            2000: cities_2000,
+            3000: cities_3000
+        };
+
+        var type_to_color = {
+            "hike": "green",
+            "road": "rgb(42, 42, 42)",
+            "gravel": "rgb(82, 137, 144)"
+        };
+
+        state = 1000;
+
+        function setState(value) {
+            if (value == state) {
+                return
+            }
+            state = value;
+            unselectCity();
+            document.getElementById('hoehenmeter').textContent = state + " Höhenmeter für den guten Zweck!";
+            document.getElementById('badge').textContent = "Zusammen mit Deinen HELP Riegeln erhältst Du zudem den offiziellen HELP" + state + " Badge!";
+            reduced_opacity = 0.3;
+            if (state == 1000) {
+                document.getElementById('options').style.display = 'block';
+                document.getElementById('anfragen').style.display = 'none';
+                add_cities(cities_1000);
+                map.setView([48.0, 10.5515], zoom);
+                document.getElementById('1000').style.opacity = 1;
+                document.getElementById('2000').style.opacity = reduced_opacity;
+                document.getElementById('3000').style.opacity = reduced_opacity;
+                document.getElementById('option12').src = "img/1000_12.png";
+                document.getElementById('option24').src = "img/1000_24.png";
+                document.getElementById('option48').src = "img/1000_48.png";
+            } else if (state == 2000) {
+                document.getElementById('options').style.display = 'block';
+                document.getElementById('anfragen').style.display = 'none';
+                add_cities(cities_2000);
+                map.setView([46.4508, 9.5328], zoom);
+                document.getElementById('1000').style.opacity = reduced_opacity;
+                document.getElementById('2000').style.opacity = 1;
+                document.getElementById('3000').style.opacity = reduced_opacity;
+                document.getElementById('option12').src = "img/2000_12.png";
+                document.getElementById('option24').src = "img/2000_24.png";
+                document.getElementById('option48').src = "img/2000_48.png";
+            } else {
+                document.getElementById('options').style.display = 'none';
+                document.getElementById('anfragen').style.display = 'block';
+                add_cities(cities_3000);
+                map.setView([45.7346, 7.3173], zoom);
+                document.getElementById('1000').style.opacity = reduced_opacity;
+                document.getElementById('2000').style.opacity = reduced_opacity;
+                document.getElementById('3000').style.opacity = 1;
+                document.getElementById('option12').src = "";
+                document.getElementById('option24').src = "";
+                document.getElementById('option48').src = "";
+            }
+        }
+
+        function updateSidebarContent() {
+            if (activeCity) {
+                document.getElementById('city-name').textContent = activeCity.name;
+                document.getElementById('city-description').textContent = activeCity.description;
+                document.getElementById('city-image').src = activeCity.image;
+                for (var i = 0; i < activeCity.links.length; i++) {
+                    document.getElementById('link' + (i + 1)).href = activeCity.links[i];
+                }
+            }
+        }
+
+        function unselectCity() {
+            sidebar.style.zIndex = "-1000";
+            sidebar.style.opacity = "0";
+            triangle.style.zIndex = "-1000";
+            triangle.style.opacity = "0";
+            activeCity = null;
+        }
+
+        function updateSidebarAndTriangle(applyTransition) {
+            var point = map.latLngToContainerPoint(activeCity.coords);
+            if (applyTransition) {
+                sidebar.scrollTop = 0;
+                sidebar.style.transition = "left 0.5s ease, opacity 0.5s ease";
+                triangle.style.transition = "left 0.5s ease, top 0.5s ease, opacity 0.5s ease";
+            } else {
+                sidebar.style.transition = "none";
+                triangle.style.transition = "none";
+            }
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            sidebar.style.left = (point.x + 175 - width / 2) + 'px';
+            sidebar.style.zIndex = "1001";
+            sidebar.style.opacity = "1";
+            
+            triangle.style.left = (point.x - 20 - width / 2) + 'px';
+            triangle.style.top = (point.y - 30 - height / 2) + 'px';
+            triangle.style.zIndex = "1000";
+            triangle.style.opacity = "1";
+        }
+
+        function add_cities(cities) {
+
+            map.eachLayer(function (layer) {
+                    if (layer instanceof L.CircleMarker) {
+                        map.removeLayer(layer);
+                    }
+                });
+        
+            cities.forEach(city => {
+
+                var color = type_to_color[city.type];
+                var circle = L.circleMarker(city.coords, {
+                    color: color,
+                    fillColor: color,
+                    fillOpacity: 0.5,
+                    radius: 14
+                }).addTo(map);
+                
+                circle.on('click', function() {
+                    circle.setStyle({ radius: 14 });
+                    activeCity = city;
+                    updateSidebarContent();
+                    updateSidebarAndTriangle(true);
+                    var width = window.innerWidth;
+                    var height = window.innerHeight;
+                    if (width <= 768) {
+                        var mapSize = map.getSize();
+                        var pixelCoords = map.latLngToContainerPoint(city.coords);
+                        var correctedX = pixelCoords.x + width / 2;
+                        var shiftX = mapSize.x - correctedX - 330;
+                        var newCenter = map.containerPointToLatLng([mapSize.x / 2 - shiftX, mapSize.y / 2]); 
+                        var zoom = map.getZoom();
+                        map.setView(newCenter, zoom, { animate: true, duration: 0.5 });
+                    }
+                });
+
+                circle.on('mouseover', function() {
+                    if (!activeCity || activeCity.name !== city.name) {
+                        circle.setStyle({ radius: 15 });
+                        circle._path.style.cursor = 'pointer';
+                    }
+                });
+
+                circle.on('mouseout', function() {
+                    if (!activeCity || activeCity.name !== city.name) {
+                        circle.setStyle({ radius: 14 });
+                        circle._path.style.cursor = '';
+                    }
+                });
+
+            });
+
+        }
+
+        add_cities(cities_1000);
+
+        map.on('move', function() {
+            if (activeCity) {
+                updateSidebarAndTriangle(false);
+            }
+        });
+
+        map.on('click', function(e) {
+
+            var clickedInsideCircle = thousands_to_cities[state].some(city => {
+                var circlePoint = map.latLngToContainerPoint(city.coords);
+                var distance = Math.sqrt(Math.pow(circlePoint.x - e.containerPoint.x, 2) + Math.pow(circlePoint.y - e.containerPoint.y, 2));
+                return distance <= 15;
+            });
+
+            if (!clickedInsideCircle) {
+                unselectCity();
+            }
+        });
+
+    </script>
 </body>
 </html>
